@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
-import { fetchPopularMovies } from '@/utils/api';
-import { searchMovies } from '@/utils/api'; // Import the search function
+import { fetchPopularMovies, searchMovies, fetchGenres } from '@/utils/api'; // Import the search function
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   useEffect(() => {
     const getMovies = async () => {
@@ -16,11 +17,41 @@ export default function Home() {
     getMovies();
   }, []);
 
+  useEffect(() => {
+    const getGenres = async () => {
+      const genreData = await fetchGenres();
+      setGenres(genreData);
+    };
+
+    getGenres();
+  }, []);
+
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
     const searchResults = await searchMovies(searchQuery);
     setMovies(searchResults);
+  };
+
+  const handleGenreChange = async (e) => {
+    const genreId = e.target.value;
+    setSelectedGenre(genreId);
+
+    if (!genreId) {
+      const moviesData = await fetchPopularMovies();
+      setMovies(moviesData);
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&with_genres=${genreId}`
+      );
+      const data = await res.json();
+      setMovies(data.results || []);
+    } catch (error) {
+      console.error('Error fetching movies by genre:', error);
+    }
   };
 
   return (
@@ -45,6 +76,22 @@ export default function Home() {
           🔍
         </button>
       </form>
+
+      {/* Genre Dropdown */}
+      <div className="flex justify-center mb-6">
+        <select
+          className="p-3 bg-gray-800 text-white rounded-md"
+          value={selectedGenre}
+          onChange={handleGenreChange}
+        >
+          <option value="">All Genres</option>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Movie Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">

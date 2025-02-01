@@ -25,3 +25,16 @@ export async function searchMovies(query) {
     return [];
   }
 }
+
+export async function fetchGenres() {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+    );
+    const data = await res.json();
+    return data.genres || [];
+  } catch (error) {
+    console.error('Error fetching genres:', error);
+    return [];
+  }
+}
