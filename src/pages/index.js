@@ -7,6 +7,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
+  const [watchlist, setWatchlist] = useState([]);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -25,6 +26,24 @@ export default function Home() {
 
     getGenres();
   }, []);
+
+  useEffect(() => {
+    const savedWatchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    setWatchlist(savedWatchlist);
+  }, []);
+
+  const toggleWatchlist = (movie) => {
+    let updatedWatchlist;
+
+    if (watchlist.some((m) => m.id === movie.id)) {
+      updatedWatchlist = watchlist.filter((m) => m.id !== movie.id);
+    } else {
+      updatedWatchlist = [...watchlist, movie];
+    }
+
+    setWatchlist(updatedWatchlist);
+    localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist));
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -96,7 +115,14 @@ export default function Home() {
       {/* Movie Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {movies?.length > 0 ? (
-          movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
+          movies.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              toggleWatchlist={toggleWatchlist}
+              isInWatchlist={watchlist.some((m) => m.id === movie.id)}
+            />
+          ))
         ) : (
           <p className="text-center text-gray-400 text-lg col-span-full">
             No movies found.
