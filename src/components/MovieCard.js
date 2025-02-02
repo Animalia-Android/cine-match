@@ -1,6 +1,15 @@
+import { motion } from 'framer-motion';
+
 export default function MovieCard({ movie, toggleWatchlist, isInWatchlist }) {
   return (
-    <div className="bg-gray-800 p-4 rounded-lg transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer">
+    <motion.div
+      className="bg-gray-800 p-4 rounded-lg cursor-pointer"
+      whileHover={{
+        scale: 1.05,
+        boxShadow: '0px 4px 10px rgba(255, 255, 255, 0.2)',
+      }}
+      transition={{ duration: 0.2 }}
+    >
       <img
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}
@@ -8,14 +17,15 @@ export default function MovieCard({ movie, toggleWatchlist, isInWatchlist }) {
       />
       <h2 className="text-lg font-semibold mt-3 text-center">{movie.title}</h2>
 
-      <button
+      <motion.button
         className={`mt-3 w-full p-2 rounded-md ${
           isInWatchlist ? 'bg-red-500' : 'bg-yellow-400'
         } hover:opacity-80 transition`}
+        whileTap={{ scale: 0.9 }}
         onClick={() => toggleWatchlist(movie)}
       >
         {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
-      </button>
-    </div>
+      </motion.button>
+    </motion.div>
   );
 }

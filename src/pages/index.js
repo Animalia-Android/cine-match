@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
-import { fetchPopularMovies, searchMovies, fetchGenres } from '@/utils/api'; // Import the search function
+import { fetchPopularMovies, searchMovies } from '@/utils/api'; // Removed fetchGenres
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -20,8 +20,11 @@ export default function Home() {
 
   useEffect(() => {
     const getGenres = async () => {
-      const genreData = await fetchGenres();
-      setGenres(genreData);
+      const res = await fetch(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+      );
+      const data = await res.json();
+      setGenres(data.genres || []);
     };
 
     getGenres();
@@ -110,6 +113,16 @@ export default function Home() {
             </option>
           ))}
         </select>
+      </div>
+
+      {/*Watchlist Link*/}
+      <div className="flex justify-center mb-6">
+        <a
+          href="/watchlist"
+          className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition"
+        >
+          ⭐ View My Watchlist
+        </a>
       </div>
 
       {/* Movie Grid */}
