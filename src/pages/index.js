@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { fetchPopularMovies, searchMovies } from '@/utils/api'; // Removed fetchGenres
+import MovieModal from '@/components/MovieModal';
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -8,6 +9,13 @@ export default function Home() {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [watchlist, setWatchlist] = useState([]);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+  useEffect(() => {
+    const handleOpenMovie = (e) => setSelectedMovieId(e.detail);
+    window.addEventListener('openMovie', handleOpenMovie);
+    return () => window.removeEventListener('openMovie', handleOpenMovie);
+  }, []);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -134,6 +142,10 @@ export default function Home() {
               movie={movie}
               toggleWatchlist={toggleWatchlist}
               isInWatchlist={watchlist.some((m) => m.id === movie.id)}
+              onClick={() => {
+                console.log('Clicked Movie ID:', movie.id); // Debugging
+                setSelectedMovieId(movie.id);
+              }}
             />
           ))
         ) : (
@@ -142,6 +154,10 @@ export default function Home() {
           </p>
         )}
       </div>
+      <MovieModal
+        movieId={selectedMovieId}
+        onClose={() => setSelectedMovieId(null)}
+      />
     </div>
   );
 }
