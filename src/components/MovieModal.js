@@ -76,7 +76,11 @@ const MovieModal = ({ movieId, onClose }) => {
             <div>
               <div className="flex flex-col md:flex-row">
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                      : '/placeholder.jpg'
+                  }
                   alt={movie.title}
                   className="w-full md:w-1/3 rounded-lg shadow-lg"
                 />
