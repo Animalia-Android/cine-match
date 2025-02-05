@@ -91,9 +91,20 @@ const MovieModal = ({ movieId, onClose }) => {
                   </p>
                   <p className="italic text-gray-300 mt-1">{movie.tagline}</p>
                   <p className="mt-2">{movie.overview}</p>
-                  <p className="mt-2 font-bold">
-                    Rating: {movie.vote_average}/10
+                  <p className="mt-2 font-bold flex items-center">
+                    Rating:
+                    <span className="ml-2 flex">
+                      {[...Array(Math.round(movie.vote_average / 2))].map(
+                        (_, i) => (
+                          <span key={i} className="text-yellow-400">
+                            ⭐
+                          </span>
+                        )
+                      )}
+                    </span>
+                    ({movie.vote_average}/10)
                   </p>
+
                   <p className="mt-2 font-bold">
                     Genres:{' '}
                     {movie.genres
@@ -111,6 +122,16 @@ const MovieModal = ({ movieId, onClose }) => {
                     {cast
                       .map((actor) => `${actor.name} (${actor.character})`)
                       .join(', ')}
+                  </p>
+                  <p className="mt-2 font-bold">
+                    <a
+                      href={`https://www.imdb.com/title/${movie.imdb_id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-yellow-400 underline"
+                    >
+                      View on IMDb
+                    </a>
                   </p>
                 </div>
               </div>
@@ -137,22 +158,24 @@ const MovieModal = ({ movieId, onClose }) => {
                         key={similar.id}
                         className="cursor-pointer"
                         onClick={() => {
-                          onClose(); // Close current modal
-                          setTimeout(
-                            () =>
-                              window.dispatchEvent(
-                                new CustomEvent('openMovie', {
-                                  detail: similar.id,
-                                })
-                              ),
-                            300
-                          );
+                          onClose();
+                          setTimeout(() => {
+                            window.dispatchEvent(
+                              new CustomEvent('openMovie', {
+                                detail: similar.id,
+                              })
+                            );
+                          }, 300);
                         }}
                       >
                         <img
-                          src={`https://image.tmdb.org/t/p/w200${similar.poster_path}`}
+                          src={
+                            similar.poster_path
+                              ? `https://image.tmdb.org/t/p/w200${similar.poster_path}`
+                              : '/placeholder.jpg'
+                          }
                           alt={similar.title}
-                          className="rounded-lg shadow-md"
+                          className="rounded-lg shadow-md transition-transform transform hover:scale-105"
                         />
                         <p className="text-sm mt-2 text-center">
                           {similar.title}
