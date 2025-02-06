@@ -124,14 +124,14 @@ export default function Home() {
       </div>
 
       {/*Watchlist Link*/}
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <a
           href="/watchlist"
           className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition"
         >
           ⭐ View My Watchlist
         </a>
-      </div>
+      </div> */}
 
       {/* Movie Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">

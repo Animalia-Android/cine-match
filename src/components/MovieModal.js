@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import Image from 'next/image';
 // import { CustomButton } from '@/components/ui/CustomButton';
 
 const MovieModal = ({ movieId, onClose }) => {
@@ -75,13 +76,15 @@ const MovieModal = ({ movieId, onClose }) => {
           ) : movie ? (
             <div>
               <div className="flex flex-col md:flex-row">
-                <img
+                <Image
                   src={
                     movie.poster_path
                       ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                       : '/placeholder.jpg'
                   }
                   alt={movie.title}
+                  width={500}
+                  height={750}
                   className="w-full md:w-1/3 rounded-lg shadow-lg"
                 />
                 <div className="ml-4 flex-1">
@@ -168,13 +171,15 @@ const MovieModal = ({ movieId, onClose }) => {
                           }, 300);
                         }}
                       >
-                        <img
+                        <Image
                           src={
                             similar.poster_path
                               ? `https://image.tmdb.org/t/p/w200${similar.poster_path}`
                               : '/placeholder.jpg'
                           }
                           alt={similar.title}
+                          width={500}
+                          height={750}
                           className="rounded-lg shadow-md transition-transform transform hover:scale-105"
                         />
                         <p className="text-sm mt-2 text-center">
