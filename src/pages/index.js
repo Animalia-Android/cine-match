@@ -11,19 +11,53 @@ export default function Home() {
   const [watchlist, setWatchlist] = useState([]);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
 
+  const [theaterMovies, setTheaterMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
+
   useEffect(() => {
     const handleOpenMovie = (e) => setSelectedMovieId(e.detail);
     window.addEventListener('openMovie', handleOpenMovie);
     return () => window.removeEventListener('openMovie', handleOpenMovie);
   }, []);
 
+  // useEffect(() => {
+  //   const getMovies = async () => {
+  //     const moviesData = await fetchPopularMovies();
+  //     setMovies(moviesData);
+  //   };
+
+  //   getMovies();
+  // }, []);
+
   useEffect(() => {
-    const getMovies = async () => {
-      const moviesData = await fetchPopularMovies();
-      setMovies(moviesData);
+    const fetchMovies = async () => {
+      try {
+        const [theatersRes, trendingRes, recommendedRes] = await Promise.all([
+          fetch(
+            `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+          ),
+          fetch(
+            `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+          ),
+          fetch(
+            `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+          ),
+        ]);
+
+        const [theatersData, trendingData, recommendedData] = await Promise.all(
+          [theatersRes.json(), trendingRes.json(), recommendedRes.json()]
+        );
+
+        setTheaterMovies(theatersData.results);
+        setTrendingMovies(trendingData.results);
+        setRecommendedMovies(recommendedData.results);
+      } catch (error) {
+        console.error('Error fetching movie categories:', error);
+      }
     };
 
-    getMovies();
+    fetchMovies();
   }, []);
 
   useEffect(() => {
@@ -134,7 +168,7 @@ export default function Home() {
       </div> */}
 
       {/* Movie Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {movies?.length > 0 ? (
           movies.map((movie) => (
             <MovieCard
@@ -153,7 +187,55 @@ export default function Home() {
             No movies found.
           </p>
         )}
+      </div> */}
+      {/* Movies in Theaters */}
+      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
+        🎥 Now Playing
+      </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {theaterMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            toggleWatchlist={toggleWatchlist}
+            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
+            onClick={() => setSelectedMovieId(movie.id)}
+          />
+        ))}
       </div>
+
+      {/* Trending Movies */}
+      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
+        📈 Trending
+      </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {trendingMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            toggleWatchlist={toggleWatchlist}
+            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
+            onClick={() => setSelectedMovieId(movie.id)}
+          />
+        ))}
+      </div>
+
+      {/* Recommended Movies */}
+      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
+        ⭐ Top Picks
+      </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {recommendedMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            toggleWatchlist={toggleWatchlist}
+            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
+            onClick={() => setSelectedMovieId(movie.id)}
+          />
+        ))}
+      </div>
+
       <MovieModal
         movieId={selectedMovieId}
         onClose={() => setSelectedMovieId(null)}

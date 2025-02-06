@@ -2,14 +2,35 @@ import { useState, useEffect } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { useRouter } from 'next/router';
 
+import { auth } from '@/utils/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+
 export default function Watchlist() {
   const router = useRouter(); // Use Next.js router
   const [watchlist, setWatchlist] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const savedWatchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
     setWatchlist(savedWatchlist);
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push('/auth'); // Redirect to login if not logged in
+      } else {
+        setUser(user);
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  if (user === null) {
+    return (
+      <p className="text-center text-white mt-10">Redirecting to login...</p>
+    );
+  }
 
   const removeFromWatchlist = (movie) => {
     const updatedList = watchlist.filter((m) => m.id !== movie.id);
