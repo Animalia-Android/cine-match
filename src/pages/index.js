@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { fetchPopularMovies, searchMovies } from '@/utils/api'; // Removed fetchGenres
 import MovieModal from '@/components/MovieModal';
+import NowPlaying from '@/components/NowPlaying';
+import Trending from '@/components/Trending';
+import TopPicks from '@/components/TopPicks';
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -123,7 +126,6 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400">
         🎬 CineMatch - Movie Finder
       </h1>
-
       {/* Search Bar */}
       <form onSubmit={handleSearch} className="flex justify-center mb-6">
         <input
@@ -157,85 +159,33 @@ export default function Home() {
         </select>
       </div>
 
-      {/*Watchlist Link*/}
-      {/* <div className="flex justify-center mb-6">
-        <a
-          href="/watchlist"
-          className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition"
-        >
-          ⭐ View My Watchlist
-        </a>
-      </div> */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Movies in Theaters */}
+        <NowPlaying
+          theaterMovies={theaterMovies}
+          toggleWatchlist={toggleWatchlist}
+          watchlist={watchlist}
+          setSelectedMovieId={setSelectedMovieId}
+        />
 
-      {/* Movie Grid */}
-      {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {movies?.length > 0 ? (
-          movies.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              toggleWatchlist={toggleWatchlist}
-              isInWatchlist={watchlist.some((m) => m.id === movie.id)}
-              onClick={() => {
-                console.log('Clicked Movie ID:', movie.id); // Debugging
-                setSelectedMovieId(movie.id);
-              }}
-            />
-          ))
-        ) : (
-          <p className="text-center text-gray-400 text-lg col-span-full">
-            No movies found.
-          </p>
-        )}
-      </div> */}
-      {/* Movies in Theaters */}
-      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
-        🎥 Now Playing
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {theaterMovies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            toggleWatchlist={toggleWatchlist}
-            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
-            onClick={() => setSelectedMovieId(movie.id)}
-          />
-        ))}
+        {/* Trending Movies */}
+        <Trending
+          trendingMovies={trendingMovies}
+          toggleWatchlist={toggleWatchlist}
+          watchlist={watchlist}
+          setSelectedMovieId={setSelectedMovieId}
+        />
+
+        {/* Recommended Movies */}
+        <TopPicks
+          recommendedMovies={recommendedMovies}
+          toggleWatchlist={toggleWatchlist}
+          watchlist={watchlist}
+          setSelectedMovieId={setSelectedMovieId}
+        />
       </div>
 
-      {/* Trending Movies */}
-      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
-        📈 Trending
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {trendingMovies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            toggleWatchlist={toggleWatchlist}
-            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
-            onClick={() => setSelectedMovieId(movie.id)}
-          />
-        ))}
-      </div>
-
-      {/* Recommended Movies */}
-      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
-        ⭐ Top Picks
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {recommendedMovies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            toggleWatchlist={toggleWatchlist}
-            isInWatchlist={watchlist.some((m) => m.id === movie.id)}
-            onClick={() => setSelectedMovieId(movie.id)}
-          />
-        ))}
-      </div>
-
+      {/* Pop up Movie Modal*/}
       <MovieModal
         movieId={selectedMovieId}
         onClose={() => setSelectedMovieId(null)}
