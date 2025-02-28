@@ -5,6 +5,7 @@ import MovieModal from '@/components/MovieModal';
 import NowPlaying from '@/components/NowPlaying';
 import Trending from '@/components/Trending';
 import TopPicks from '@/components/TopPicks';
+import SearchBar from '@/components/SearchBar';
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -126,25 +127,9 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400">
         🎬 CineMatch - Movie Finder
       </h1>
-      {/* Search Bar */}
-      <form onSubmit={handleSearch} className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          className="w-full max-w-md p-3 rounded-l-md text-black outline-none"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="bg-yellow-400 px-5 py-3 rounded-r-md hover:bg-yellow-500 transition"
-        >
-          🔍
-        </button>
-      </form>
 
       {/* Genre Dropdown */}
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <select
           className="p-3 bg-gray-800 text-white rounded-md"
           value={selectedGenre}
@@ -157,7 +142,7 @@ export default function Home() {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Movies in Theaters */}
