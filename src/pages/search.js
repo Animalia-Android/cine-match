@@ -2,11 +2,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { searchMovies } from '@/utils/api';
 import MovieCard from '@/components/MovieCard';
+import MovieModal from '@/components/MovieModal';
 
 const SearchResults = () => {
   const router = useRouter();
   const { query } = router.query;
   const [movies, setMovies] = useState([]);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   useEffect(() => {
     if (query) {
@@ -23,11 +25,21 @@ const SearchResults = () => {
       {movies.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              onClick={() => setSelectedMovieId(movie.id)}
+            />
           ))}
         </div>
       ) : (
         <p className="text-center text-gray-400">No movies found.</p>
+      )}
+      {selectedMovieId && (
+        <MovieModal
+          movieId={selectedMovieId}
+          onClose={() => setSelectedMovieId(null)}
+        />
       )}
     </div>
   );

@@ -41,9 +41,9 @@ const MovieModal = ({ movieId, onClose }) => {
         const similarData = await similarRes.json();
 
         setMovie(movieData);
-        setCast(creditsData.cast ? creditsData.cast.slice(0, 5) : []);
+        setCast(creditsData.cast ? creditsData.cast.slice(0, 6) : []);
         setSimilarMovies(
-          similarData.results ? similarData.results.slice(0, 5) : []
+          similarData.results ? similarData.results.slice(0, 6) : []
         );
 
         const officialTrailer = videosData.results
@@ -75,6 +75,14 @@ const MovieModal = ({ movieId, onClose }) => {
             <p className="text-center">Loading movie details...</p>
           ) : movie ? (
             <div>
+              <div className="mt-1 flex justify-end">
+                <Dialog.Close asChild>
+                  <button className="bg-red-500 hover:bg-red-600 text-white px-1 py-2 rounded-lg shadow-md transition">
+                    ✖ Close
+                  </button>
+                </Dialog.Close>
+              </div>
+
               <div className="flex flex-col md:flex-row">
                 <Image
                   src={
@@ -190,11 +198,13 @@ const MovieModal = ({ movieId, onClose }) => {
                   </div>
                 </div>
               )}
-              <div className="mt-4 flex justify-end">
+              {/* <div className="mt-4 flex justify-end">
                 <Dialog.Close asChild>
-                  <div className="bg-red-500 hover:bg-red-700">Close</div>
+                  <div className="bg-red-500 hover:bg-red-700 rounded-lg">
+                    close
+                  </div>
                 </Dialog.Close>
-              </div>
+              </div> */}
             </div>
           ) : (
             <p className="text-center">No movie selected.</p>
