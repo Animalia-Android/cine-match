@@ -145,29 +145,35 @@ export default function Home() {
       </div> */}
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Movies in Theaters */}
-        <NowPlaying
-          theaterMovies={theaterMovies}
-          toggleWatchlist={toggleWatchlist}
-          watchlist={watchlist}
-          setSelectedMovieId={setSelectedMovieId}
-        />
+        <div className="bg-gray-800 shadow-inner rounded-lg p-6 border border-gray-700 mb-6">
+          {/* Movies in Theaters */}
+          <NowPlaying
+            theaterMovies={theaterMovies}
+            toggleWatchlist={toggleWatchlist}
+            watchlist={watchlist}
+            setSelectedMovieId={setSelectedMovieId}
+          />
+        </div>
 
-        {/* Trending Movies */}
-        <Trending
-          trendingMovies={trendingMovies}
-          toggleWatchlist={toggleWatchlist}
-          watchlist={watchlist}
-          setSelectedMovieId={setSelectedMovieId}
-        />
+        <div className="bg-gray-800 shadow-inner rounded-lg p-6 border border-gray-700 mb-6">
+          {/* Trending Movies */}
+          <Trending
+            trendingMovies={trendingMovies}
+            toggleWatchlist={toggleWatchlist}
+            watchlist={watchlist}
+            setSelectedMovieId={setSelectedMovieId}
+          />
+        </div>
 
-        {/* Recommended Movies */}
-        <TopPicks
-          recommendedMovies={recommendedMovies}
-          toggleWatchlist={toggleWatchlist}
-          watchlist={watchlist}
-          setSelectedMovieId={setSelectedMovieId}
-        />
+        <div className="bg-gray-800 shadow-inner rounded-lg p-6 border border-gray-700 mb-6">
+          {/* Recommended Movies */}
+          <TopPicks
+            recommendedMovies={recommendedMovies}
+            toggleWatchlist={toggleWatchlist}
+            watchlist={watchlist}
+            setSelectedMovieId={setSelectedMovieId}
+          />
+        </div>
       </div>
 
       {/* Pop up Movie Modal*/}
