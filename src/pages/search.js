@@ -18,12 +18,12 @@ const SearchResults = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
-      <h1 className="text-3xl font-bold text-center text-yellow-400 mb-6">
-        Search Results for: {query}
+      <h1 className="text-2xl  md:text-3xl font-bold text-center text-yellow-400 mb-6">
+        Search results for: {query}
       </h1>
 
       {movies.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-auto max-w-6xl ">
           {movies.map((movie) => (
             <MovieCard
               key={movie.id}

@@ -1,71 +1,10 @@
-// import { useState, useEffect } from 'react';
-// import { auth } from '@/utils/firebase';
-// import { onAuthStateChanged, signOut } from 'firebase/auth';
-// import Link from 'next/link';
-// import SearchBar from './SearchBar';
-
-// const NavBar = () => {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       setUser(user);
-//     });
-//     return () => unsubscribe();
-//   }, []);
-
-//   const handleLogout = async () => {
-//     await signOut(auth);
-//     setUser(null);
-//   };
-
-//   return (
-//     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md">
-//       <Link href="/" className="text-2xl font-bold text-yellow-400">
-//         🎬 CineMatch
-//       </Link>
-
-//       <SearchBar />
-
-//       <div className="flex space-x-4">
-//         <Link href="/" className="hover:text-yellow-300">
-//           Home
-//         </Link>
-//         <Link href="/watchlist" className="hover:text-yellow-300">
-//           Watchlist
-//         </Link>
-
-//         {user ? (
-//           <div className="flex items-center space-x-3">
-//             <span className="text-sm text-gray-300">{user.email}</span>
-//             <button
-//               onClick={handleLogout}
-//               className="bg-red-500 hover:bg-red-700 px-3 py-1 rounded"
-//             >
-//               Logout
-//             </button>
-//           </div>
-//         ) : (
-//           <Link
-//             href="/auth"
-//             className="bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded"
-//           >
-//             Login
-//           </Link>
-//         )}
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default NavBar;
-
 import { useState, useEffect } from 'react';
 import { auth } from '@/utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SearchBar from './SearchBar';
+import { Home, HomeIcon, Popcorn } from 'lucide-react';
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
@@ -82,73 +21,117 @@ const NavBar = () => {
   const handleLogout = async () => {
     await signOut(auth);
     setUser(null);
-    router.push('/'); // Redirect to home after logout
+    router.push('/');
   };
 
   return (
-    <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between shadow-md">
-      {/* Logo */}
-      <Link href="/" className="text-3xl font-bold text-yellow-400">
-        🎬 CineMatch
-      </Link>
-
-      {/* Search Bar */}
-      <div className="hidden sm:block flex-grow mx-6">
-        <SearchBar />
-      </div>
-
-      {/* Nav Links & User Menu */}
-      <div className="flex items-center space-x-6">
-        <Link href="/" className="hover:text-yellow-300 transition">
-          Home
-        </Link>
-        <Link href="/watchlist" className="hover:text-yellow-300 transition">
-          Watchlist
+    <nav className="bg-gray-900 text-white px-4 md:px-6 py-4 shadow-md sticky top-0 z-40">
+      <div
+        className="mx-auto max-w-7xl
+                    flex flex-wrap items-center gap-3 md:gap-6
+                    md:grid md:grid-cols-[auto,1fr,auto]"
+      >
+        {/* Logo */}
+        <Link
+          href="/"
+          className="order-1 shrink-0 text-2xl font-bold text-yellow-400"
+        >
+          🎬 CineMatch
         </Link>
 
-        {user ? (
-          <div className="relative">
-            {/* User Button */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-full hover:bg-gray-700 transition"
-            >
-              <span className="text-sm text-gray-300">{user.email}</span>
-              <span>▼</span>
-            </button>
+        {/* Desktop Search (md+) */}
+        <div className="order-2 hidden md:block md:flex-1 min-w-0">
+          <SearchBar className="w-full min-w-0" />
+        </div>
 
-            {/* Dropdown Menu */}
-            {menuOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-gray-800 shadow-lg rounded-md py-2">
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 transition"
-                >
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
+        {/* Desktop actions */}
+        <div className="order-3 hidden md:flex items-center gap-6">
           <Link
-            href="/auth"
-            className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition"
+            href="/"
+            className="hover:text-yellow-300 transition"
+            aria-label="Home"
           >
-            Login
+            <Home className="inline mr-1" aria-hidden="true" />
           </Link>
-        )}
+          <Link
+            href="/watchlist"
+            className="hover:text-yellow-300 transition"
+            aria-label="Watchlist"
+          >
+            <Popcorn className="inline mr-1" aria-hidden="true" />
+          </Link>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/auth"
+              className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          className="order-2 md:hidden ml-auto text-white text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+        >
+          ☰
+        </button>
+
+        {/* Mobile Search (visible below header) */}
+        <div className="order-3 w-full md:hidden min-w-0">
+          <SearchBar className="w-full min-w-0" />
+        </div>
       </div>
 
-      {/* Mobile Search Bar (Visible on Small Screens) */}
-      <div className="sm:hidden w-full mt-4">
-        <SearchBar />
-      </div>
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="md:hidden absolute inset-x-0 top-full bg-gray-800 z-50
+                   flex flex-col items-center space-y-4 py-4"
+        >
+          <Link
+            href="/"
+            className="hover:text-yellow-300 transition"
+            aria-label="Home"
+          >
+            <HomeIcon className="inline mr-1" aria-hidden="true" />
+          </Link>
+          <Link
+            href="/watchlist"
+            className="hover:text-yellow-300 transition"
+            aria-label="Watchlist"
+          >
+            <Popcorn className="inline mr-1" aria-hidden="true" />
+          </Link>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/auth"
+              className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
