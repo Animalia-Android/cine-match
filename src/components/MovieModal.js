@@ -113,7 +113,9 @@ const MovieModal = ({ movieId, onClose }) => {
                         )
                       )}
                     </span>
-                    ({movie.vote_average}/10)
+                    {movie.vote_average
+                      ? ` (${movie.vote_average.toFixed(1)}/10)`
+                      : ' N/A'}
                   </p>
 
                   <p className="mt-2 font-bold">

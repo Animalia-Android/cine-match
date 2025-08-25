@@ -132,6 +132,7 @@ const NavBar = () => {
           )}
         </div>
       )}
+      <div className="h-px bg-gradient-to-r from-emerald-600/40 via-transparent to-emerald-600/40 " />
     </nav>
   );
 };

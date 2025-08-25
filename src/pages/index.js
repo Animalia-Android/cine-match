@@ -129,7 +129,7 @@ export default function Home() {
       </h1>
 
       {/* Genre Dropdown */}
-      {/* <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-6">
         <select
           className="p-3 bg-gray-800 text-white rounded-md"
           value={selectedGenre}
@@ -142,7 +142,7 @@ export default function Home() {
             </option>
           ))}
         </select>
-      </div> */}
+      </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gray-800 shadow-inner rounded-lg p-6 border border-gray-700 mb-6">
