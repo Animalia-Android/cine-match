@@ -67,21 +67,20 @@ const NavBar = () => {
           >
             <Popcorn className="inline mr-1" aria-hidden="true" />
           </Link>
-          {user ? (
+          {user ?
             <button
               onClick={handleLogout}
               className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 transition"
             >
               Logout
             </button>
-          ) : (
-            <Link
+          : <Link
               href="/auth"
               className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition"
             >
               Login
             </Link>
-          )}
+          }
         </div>
 
         {/* Mobile menu button */}
@@ -122,21 +121,20 @@ const NavBar = () => {
           >
             <Popcorn className="inline mr-1" aria-hidden="true" />
           </Link>
-          {user ? (
+          {user ?
             <button
               onClick={handleLogout}
               className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 transition"
             >
-              Logout
+              Log out
             </button>
-          ) : (
-            <Link
+          : <Link
               href="/auth"
               className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition"
             >
               Login
             </Link>
-          )}
+          }
         </div>
       )}
       <div className="h-px bg-gradient-to-r from-emerald-600/40 via-transparent to-emerald-600/40 m-5" />

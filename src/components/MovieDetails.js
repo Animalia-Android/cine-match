@@ -106,7 +106,7 @@ const SearchResults = () => {
         Search Results for {query}
       </h1>
 
-      {movies.length > 0 ? (
+      {movies.length > 0 ?
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {movies.map((movie) => (
             <MovieCard
@@ -116,9 +116,7 @@ const SearchResults = () => {
             />
           ))}
         </div>
-      ) : (
-        <p className="text-center text-gray-400">No movies found.</p>
-      )}
+      : <p className="text-center text-gray-400">No movies found.</p>}
     </div>
   );
 };
