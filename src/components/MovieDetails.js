@@ -103,7 +103,7 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
       <h1 className="text-3xl font-bold mb-6 text-center text-yellow-400">
-        Search Results for "{query}"
+        Search Results for {query}
       </h1>
 
       {movies.length > 0 ? (

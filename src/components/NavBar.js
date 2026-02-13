@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SearchBar from './SearchBar';
 import { Home, HomeIcon, Popcorn } from 'lucide-react';
+import Image from 'next/image';
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
@@ -34,9 +35,15 @@ const NavBar = () => {
         {/* Logo */}
         <Link
           href="/"
-          className="order-1 shrink-0 text-2xl font-bold text-yellow-400"
+          className="flex order-1 shrink-0 text-2xl font-bold text-yellow-400"
         >
-          🎬 CineMatch
+          <Image
+            src={'/cineMatchNew.png'}
+            alt="CineMatch Logo"
+            width={100}
+            height={100}
+            className="rounded-lg"
+          />
         </Link>
 
         {/* Desktop Search (md+) */}
@@ -132,7 +139,7 @@ const NavBar = () => {
           )}
         </div>
       )}
-      <div className="h-px bg-gradient-to-r from-emerald-600/40 via-transparent to-emerald-600/40 " />
+      <div className="h-px bg-gradient-to-r from-emerald-600/40 via-transparent to-emerald-600/40 m-5" />
     </nav>
   );
 };
