@@ -39,18 +39,18 @@ export default function Home() {
       try {
         const [theatersRes, trendingRes, recommendedRes] = await Promise.all([
           fetch(
-            `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+            `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
           ),
           fetch(
-            `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+            `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
           ),
           fetch(
-            `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+            `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
           ),
         ]);
 
         const [theatersData, trendingData, recommendedData] = await Promise.all(
-          [theatersRes.json(), trendingRes.json(), recommendedRes.json()]
+          [theatersRes.json(), trendingRes.json(), recommendedRes.json()],
         );
 
         setTheaterMovies(theatersData.results);
@@ -67,7 +67,7 @@ export default function Home() {
   useEffect(() => {
     const getGenres = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
       );
       const data = await res.json();
       setGenres(data.genres || []);
@@ -113,7 +113,7 @@ export default function Home() {
 
     try {
       const res = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&with_genres=${genreId}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&with_genres=${genreId}`,
       );
       const data = await res.json();
       setMovies(data.results || []);
@@ -123,7 +123,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
+    <div className="min-h-screen bg-gray-900 text-white px-6">
       {/* <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400">
         🎬 CineMatch - Movie Finder
       </h1> */}
@@ -144,7 +144,7 @@ export default function Home() {
         </select>
       </div> */}
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5x mx-auto sm:px-6 ">
         <div className="bg-gray-800 shadow-inner rounded-lg p-6 border border-gray-700 mb-6">
           {/* Movies in Theaters */}
           <NowPlaying

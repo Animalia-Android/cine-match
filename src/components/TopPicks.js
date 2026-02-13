@@ -12,7 +12,7 @@ export default function TopPicks({
   return (
     <div>
       {/* Recommended Movies */}
-      <h2 className="text-2xl font-bold mt-8 mb-4 text-yellow-400">
+      <h2 className="text-2xl font-bold mt-2 mb-4 text-yellow-400">
         ⭐ Top Picks
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
