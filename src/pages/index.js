@@ -128,7 +128,7 @@ export default function Home() {
         🎬 CineMatch - Movie Finder
       </h1> */}
 
-      {/* Genre Dropdown */}
+      {/* Genre Dropdown THIS IS NOT THE PLACE FOR THIS CODE*/}
       {/* <div className="flex justify-center mb-6">
         <select
           className="p-3 bg-gray-800 text-white rounded-md"
