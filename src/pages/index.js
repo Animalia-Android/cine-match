@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
-import { fetchPopularMovies, searchMovies } from '@/utils/api'; // Removed fetchGenres
+// import { fetchPopularMovies, searchMovies } from '@/utils/api'; // Removed fetchGenres
 import MovieModal from '@/components/MovieModal';
 import NowPlaying from '@/components/NowPlaying';
 import Trending from '@/components/Trending';
